@@ -1,0 +1,39 @@
+@import url('https://fonts.googleapis.com/css2?family=Open+Sans&display=swap');
+
+body{
+    font-family: 'Open Sans', sans-serif;
+    background-image: url('assets/5291450.jpg');
+}
+
+.center-div{
+    padding-top: 10%;
+}
+
+.btn.btn-success{
+    margin-top: 15px;
+    padding: .4em 2em;
+}
+
+form{
+    padding: 0 3em;
+}
+._xyz{
+    display: flex;
+    text-align: left;
+}
+._xyz2{
+    display: flex;
+    text-align: center;
+}
+
+#login .title>span{
+    font-size: .8em;
+}
+._rapper{
+    background-image:url('assets/images.jpeg') no-repeat center;
+    /* box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px; */
+    box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+    background-color: white;
+    border-radius: 10px;
+    z-index: 9999;
+}
