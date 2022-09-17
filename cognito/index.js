@@ -28,10 +28,6 @@ function verify(email, code) {
   });
 }
 
-function onSignIn() {
-  Auth.federatedSignIn({provider : 'Google'})
-}
-
 function signIn(email, password) {
   return new Promise((resolve) => {
     AwsConfig.getCognitoUser(email).authenticateUser(AwsConfig.getAuthDetails(email, password), {
@@ -55,5 +51,5 @@ module.exports = {
   signUp,
   verify,
   signIn,
-  onSignIn
+  // onSignIn
 }

@@ -1,0 +1,352 @@
+[
+    {
+      "1": "At a party do you",
+      "option1": "Interact with many, including strangers",
+      "option2": "Interact with a few, known to you"
+    },
+    {
+      "2": "Are you more",
+      "option1": "Realistic than speculative",
+      "option2": "Speculative than realistic"
+    },
+    {
+      "3": "Is it worse to",
+      "option1": "Have your “head in the clouds”",
+      "option2": "Be“in a rut”"
+    },
+    {
+      "4": "Are you more impressed by",
+      "option1": "Principles",
+      "option2": "Emotions"
+    },
+    {
+      "5": "Are you more drawn toward the",
+      "option1": "Convincing",
+      "option2": "Touching"
+    },
+    {
+      "6": "Do you prefer to work",
+      "option1": "To deadlines",
+      "option2": "Just “whenever”"
+    },
+    {
+      "7": "Do you tend to choose",
+      "option1": "Rather carefully",
+      "option2": "Somewhat impulsively"
+    },
+    {
+      "8": "At parties do you",
+      "option1": "Stay late, with increasing energy",
+      "option2": "Leave early with decreased energy"
+    },
+    {
+      "9": "Are you more attracted to",
+      "option1": "Sensible people",
+      "option2": "Imaginative people"
+    },
+    {
+      "10": "Are you more interested in",
+      "option1": "What is actual",
+      "option2": "What is possible"
+    },
+    {
+      "11": "In judging others are you more swayed by",
+      "option1": "Laws than circumstances",
+      "option2": "Circumstances than laws"
+    },
+    {
+      "12": "In approaching others is your inclination to be somewhat",
+      "option1": "Objective",
+      "option2": "Personal"
+    },
+    {
+      "13": "Are you more",
+      "option1": "Punctual",
+      "option2": "Leisurely"
+    },
+    {
+      "14": "Does it bother you more having things",
+      "option1": "Incomplete",
+      "option2": "Completed"
+    },
+    {
+      "15": "In your social groups do you",
+      "option1": "Keep abreast of other’s happenings",
+      "option2": "Get behind on the news"
+    },
+    {
+      "16": "In doing ordinary things are you more likely to",
+      "option1": "Do it the usual way",
+      "option2": "Do it your own way"
+    },
+    {
+      "17": "Writers should",
+      "option1": "“Say what they mean and mean what they say”",
+      "option2": "Express things more by use of analogy"
+    },
+    {
+      "18": "Which appeals to you more",
+      "option1": "Consistency of thought",
+      "option2": "Harmonious human relationships"
+    },
+    {
+      "19": "Are you more comfortable in making",
+      "option1": "Logical judgments",
+      "option2": "Value judgments"
+    },
+    {
+      "20": "Do you want things",
+      "option1": "Settled and decided",
+      "option2": "Unsettled and undecided"
+    },
+    {
+      "21": "Would you say you are more",
+      "option1": "Serious and determined",
+      "option2": "Easy-going"
+    },
+    {
+      "22": "In phoning do you",
+      "option1": "Rarely  that it will all be said",
+      "option2": "Rehearse what you’ll say"
+    },
+    {
+      "23": "Facts",
+      "option1": "“Speak for themselves”",
+      "option2": "Illustrate principles"
+    },
+    {
+      "24": "Are visionaries",
+      "option1": "somewhat annoying",
+      "option2": "rather fascinating"
+    },
+    {
+      "25": "Are you more often",
+      "option1": "a cool-headed person",
+      "option2": "a warm-hearted person"
+    },
+    {
+      "26": "Is it worse to be",
+      "option1": "unjust",
+      "option2": "merciless"
+    },
+    {
+      "27": "Should one usually let events occur",
+      "option1": "by careful selection and choice",
+      "option2": "randomly and by chance"
+    },
+    {
+      "28": "Do you feel better about",
+      "option1": "having purchased",
+      "option2": "having the option to buy"
+    },
+    {
+      "29": "In company do you",
+      "option1": "initiate conversation",
+      "option2": "wait to be approached"
+    },
+    {
+      "30": "Common sense is",
+      "option1": "rarely able",
+      "option2": "frequently able"
+    },
+    {
+      "31": "Children often do not",
+      "option1": "make themselves useful enough",
+      "option2": "exercise their fantasy enough"
+    },
+    {
+      "32": "In making decisions do you feel more comfortable with",
+      "option1": "standards",
+      "option2": "feelings"
+    },
+    {
+      "33": "Are you more",
+      "option1": "firm than gentle",
+      "option2": "gentle than firm"
+    },
+    {
+      "34": "Which is more admirable",
+      "option1": "the ability to organize and be methodical",
+      "option2": "the ability to adapt and make do"
+    },
+    {
+      "35": "Do you put more value on",
+      "option1": "infinite",
+      "option2": "open-minded"
+    },
+    {
+      "36": "Does new and non-routine interaction with others",
+      "option1": "stimulate and energize you",
+      "option2": "tax your reserves"
+    },
+    {
+      "37": "Are you more frequently",
+      "option1": "a practical sort of person",
+      "option2": "a fanciful sort of person"
+    },
+    {
+      "38": "Are you more likely to",
+      "option1": "see how others are useful",
+      "option2": "see how others use"
+    },
+    {
+      "39": "Which is more satisfying",
+      "option1": "to discuss an issue thoroughly",
+      "option2": "to arrive at agreement on an issue"
+    },
+    {
+      "40": "Which rules you more",
+      "option1": "your head",
+      "option2": "your heart"
+    },
+    {
+      "41": "Are you more comfortable with work that is",
+      "option1": "contracted",
+      "option2": "done on a casual basis"
+    },
+    {
+      "42": "Do you tend to look for",
+      "option1": "the orderly",
+      "option2": "whatever turns up"
+    },
+    {
+      "43": "Do you prefer",
+      "option1": "many friends wit brief contact",
+      "option2": "a few friends with more lengthy contact"
+    },
+    {
+      "44": "Do you go more by",
+      "option1": "facts",
+      "option2": "principles"
+    },
+    {
+      "45": "Are you more interested in",
+      "option1": "production and distribution",
+      "option2": "design and research"
+    },
+    {
+      "46": "Which is more of a compliment",
+      "option1": "\"There is a avery logical person\"",
+      "option2": "\"There is a very sentimental person\""
+    },
+    {
+      "47": "Do you value in yourself more that you are",
+      "option1": "unwavering",
+      "option2": "devoted"
+    },
+    {
+      "48": "Do you more often prefer the",
+      "option1": "final and unalterable statement",
+      "option2": "tentative and preliminary statement"
+    },
+    {
+      "49": "Are you more comfortable",
+      "option1": "after a decision",
+      "option2": "before a decision"
+    },
+    {
+      "50": "Do you",
+      "option1": "speak easily and at length with strangers",
+      "option2": "find little to say to strangers"
+    },
+    {
+      "51": "Are you more likely to trust you",
+      "option1": "experience",
+      "option2": "hunch"
+    },
+    {
+      "52": "Do you feel",
+      "option1": "more practical than ingenious",
+      "option2": "more ingenious than practical"
+    },
+    {
+      "53": "Which person is more to be complimented - one of",
+      "option1": "clear reason",
+      "option2": "strong feeling"
+    },
+    {
+      "54": "Are you inclined more to be",
+      "option1": "fair-minded",
+      "option2": "sympathetic"
+    },
+    {
+      "55": "Is it preferable mostly to",
+      "option1": "make sure things are arranged",
+      "option2": "just let things happen"
+    },
+    {
+      "56": "In relationships shoud most things be",
+      "option1": "re-negotiable",
+      "option2": "random and circumstantial"
+    },
+    {
+      "57": "When the phone rings do you",
+      "option1": "hasten to get to it first",
+      "option2": "hope someone else will answer"
+    },
+    {
+      "58": "Do you prize more in yourself",
+      "option1": "a stong sense of reality",
+      "option2": "a vivid imagination"
+    },
+    {
+      "59": "Are you drawn more to",
+      "option1": "fundamentals",
+      "option2": "overtones"
+    },
+    {
+      "60": "Which seems the greater error",
+      "option1": "to be too passionate",
+      "option2": "to be objective"
+    },
+    {
+      "61": "Do you see yourself as basically",
+      "option1": "hard headed",
+      "option2": "soft hearted"
+    },
+    {
+      "62": "Which situation appeals to you more",
+      "option1": "the structured and scheduled",
+      "option2": "the unstructured and unscheduled"
+    },
+    {
+      "63": "Are you a person that is more",
+      "option1": "routinized than whimsical",
+      "option2": "whimsical than routinized"
+    },
+    {
+      "64": "Are you more inclined to be",
+      "option1": "easy to approach",
+      "option2": "somewhat reserved"
+    },
+    {
+      "65": "In writings do you prefer",
+      "option1": "the more literal",
+      "option2": "the more figurative"
+    },
+    {
+      "66": "Is it harder for you to",
+      "option1": "identify with others",
+      "option2": "utilize others"
+    },
+    {
+      "67": "Which one do you wish more for yourself",
+      "option1": "clarity of reason",
+      "option2": "strength of compassion"
+    },
+    {
+      "68": "Which is the greater fault",
+      "option1": "being indiscriminate",
+      "option2": "being critical"
+    },
+    {
+      "69": "Do you prefer the",
+      "option1": "planned event",
+      "option2": "unplanned event"
+    },
+    {
+      "70": "Do you tend to be more",
+      "option1": "deliberate than spontaneous",
+      "option2": "spontaneous than deliberate"
+    }
+  ]

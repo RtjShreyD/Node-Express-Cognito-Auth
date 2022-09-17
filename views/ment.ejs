@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="google-signin-client_id"
+        content="207677354569-5iu5aep5qk8oclqldris2bjh3dk5mtr2.apps.googleusercontent.com">
+    <title>
+        <%= title %>
+    </title>
+    <script src="https://apis.google.com/js/platform.js" async defer></script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-gH2yIJqKdNHPEq0n4Mqa/HGKIhSkIHeL5AyhkYV8i59U5AR6csBvApHHNl/vI1Bx" crossorigin="anonymous">
+    <link rel="stylesheet" href="/static/style.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+        integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
+        integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous">
+        </script>
+    <script>
+        function onSignIn(googleUser) {
+            var profile = googleUser.getBasicProfile();
+            console.log('ID: ' + profile.getId()); // Do not send to your backend! Use an ID token instead.
+            console.log('Name: ' + profile.getName());
+            console.log('Image URL: ' + profile.getImageUrl());
+            console.log('Email: ' + profile.getEmail()); // This is null if the 'email' scope is not present.
+        }
+    </script>
+    <script>
+        const url = location.href;
+
+        var token = new URL(url).hash.split('&').filter(function (el) { if (el.match('id_token') !== null) return true; })[0].split('=')[1];
+        console.log(token);
+        var base64Url = token.split('.')[1];
+        var base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
+        var jsonPayload = decodeURIComponent(window.atob(base64).split('').map(function (c) {
+            return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
+        }).join(''));
+
+        console.log(JSON.parse(jsonPayload).email);
+        email = JSON.parse(jsonPayload).email;
+        console.log(email);
+
+        let data = { email: email };
+
+        fetch("/request", {
+            method: "POST",
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(data)
+        }).then(res => {
+            console.log("Request complete! response:", res);
+        });
+
+    </script>
+
+</head>
+
+<body>
+
+    <nav class="navbar navbar-expand-lg navbar-light bg-white">
+        <div class="container">
+            <a class="navbar-brand" href="https://mentconsult.com/">
+
+                <img src="http://mentconsult-tests.herokuapp.com/static/img/ment-logo.png" class="img-fluid">
+
+            </a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
+                aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ml-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="https://www.mentconsult.com/">MENT main website<span
+                                class="sr-only"></span></a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+    <div class="container mt-5">
+        <img src="https://res.cloudinary.com/da2x3sjzs/image/upload/v1630242503/Banner_1_1_b27sxa.png"
+            class="img-fluid">
+        <div class="mt-2">
+            <button class="btn btn-primary" id="rzp-button1">Pay Now</button>
+            <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+            <script>
+                var options = {
+                    "key": "<%= key %>", // Enter the Key ID generated from the Dashboard
+                    "amount": "<%= options.amount %>", // Amount is in currency subunits. Default currency is INR. Hence, 50000 refers to 50000 paise
+                    "currency": "INR",
+                    name: "Ment Consulting",
+                    "description": "Test Transaction",
+                    "image": "http://mentconsult-tests.herokuapp.com/static/img/ment-logo.png",
+                    "order_id": "<%= orderID %>", //This is a sample Order ID. Pass the `id` obtained in the response of Step 1
+                    "handler": function (response) {
+                        const data = {
+                            orderCreationId: "<%= orderID %>",
+                            razorpayPaymentId: response.razorpay_payment_id,
+                            razorpayOrderId: response.razorpay_order_id,
+                            razorpaySignature: response.razorpay_signature,
+                        };
+                        console.log(response);
+                        fetch("/api/payment/verify", {
+                            method: "POST",
+                            headers: { 'Content-Type': 'application/json' },
+                            body: JSON.stringify({ response })
+                        }).then((res) => res.json());
+                        location.assign("/test-questions");
+                    },
+                    "notes": {
+                        "address": "Razorpay Corporate Office"
+                    },
+                    "theme": {
+                        color: "#3399cc",
+                    }
+                };
+                var rzp1 = new Razorpay(options);
+                rzp1.on('payment.failed', function (res) {
+                    alert("Payment Fail");
+                });
+                document.getElementById('rzp-button1').onclick = function (e) {
+                    rzp1.open();
+                    e.preventDefault();
+                }
+            </script>
+        </div>
+    </div>
+
+    <%- include('footer') -%>

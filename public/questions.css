@@ -1,0 +1,17 @@
+.questions-container {
+    display: flex;
+    justify-content: center;
+    margin: 50px;
+  }
+  
+  .card {
+    padding: 20px;
+    width: 500px;
+    min-width: 500px;
+    margin: 20px;
+    border-radius: 20px;
+  }
+  
+  .question {
+    font-size: 1.2em;
+  }
