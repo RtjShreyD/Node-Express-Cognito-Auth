@@ -95,18 +95,23 @@
                     "description": "Test Transaction",
                     "image": "http://mentconsult-tests.herokuapp.com/static/img/ment-logo.png",
                     "order_id": "<%= orderID %>", //This is a sample Order ID. Pass the `id` obtained in the response of Step 1
-                    "handler": function (response) {
+                    "handler": async function (response) {
+                        alert(response.razorpay_payment_id);
+                        alert(response.razorpay_order_id);
+                        alert(response.razorpay_signature)
                         const data = {
                             orderCreationId: "<%= orderID %>",
                             razorpayPaymentId: response.razorpay_payment_id,
                             razorpayOrderId: response.razorpay_order_id,
                             razorpaySignature: response.razorpay_signature,
-                        };
-                        console.log(response);
-                        fetch("/api/payment/verify", {
+                        }
+                        console.log('response ' + data.razorpayOrderId);
+                        console.log('response ' + data.razorpayPaymentId);
+                        console.log('response ' + data.razorpaySignature);
+                        await fetch("/api/payment/verify", {
                             method: "POST",
                             headers: { 'Content-Type': 'application/json' },
-                            body: JSON.stringify({ response })
+                            body: JSON.stringify(data)
                         }).then((res) => res.json());
                         location.assign("/test-questions");
                     },

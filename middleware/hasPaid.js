@@ -25,7 +25,7 @@ const hasPaidCheck = (req, res, next) => {
                         if (err) throw err;
                         if (doc) {
                             // console.log("this is doc"+doc);
-                            if (doc.hasPaid == false) {
+                            if (doc.hasPaid == true) {
                                 next();
                             } else {
                                 res.redirect('/ment/payment');

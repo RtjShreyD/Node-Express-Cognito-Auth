@@ -106,15 +106,15 @@ app.get('/dashboard/', requireAuth, function (req, res, next) {
         console.log('Error');
     }
     // const userEmail = userAuth.userAuth;
-    console.log('message '+user);
-    userModel.find({email: user}, function(err, doc){
-        if(err){
+    console.log('message ' + user);
+    userModel.find({ email: user }, function (err, doc) {
+        if (err) {
             console.log(err);
-        }else{
+        } else {
             console.log('show' + doc);
             res.render("dashboard", {
-                            data: doc, title: "Dashboard"
-                        });
+                data: doc, title: "Dashboard"
+            });
         }
     })
     // console.log(user);
@@ -139,11 +139,11 @@ app.get('/test', requireAuth, (req, res) => {
 });
 
 app.post('/dashboard', (req, res) => {
-        // Name = req.body.name,
-        // email = req.body.email,
-        // phoneNumber = req.body.phoneNumber,
-        // age = req.body.age,
-        // gender = req.body.gender
+    // Name = req.body.name,
+    // email = req.body.email,
+    // phoneNumber = req.body.phoneNumber,
+    // age = req.body.age,
+    // gender = req.body.gender
     let newAddress = new userModel({
         name: req.body.name,
         email: req.body.email,
@@ -220,15 +220,15 @@ app.set('view engine', 'ejs');
 app.use('/static', express.static(path.join(__dirname, 'public')));
 app.use('assets', express.static(path.join(__dirname, 'public/assets')))
 
-app.get('/session-expire', (req,res) => {
-    res.render('timeout', { title: "Session Expire"})
+app.get('/session-expire', (req, res) => {
+    res.render('timeout', { title: "Session Expire" })
 })
 app.get('/', (req, res) => {
     if (req.cookies["session-token"]) {
         // console.log(requireAuth);
         res.redirect('/dashboard/');
         // res.render('timeout', { title: "Session Expire"})
-    } else{
+    } else {
         res.render('base', { title: "Login System", googlelink: process.env.Google_SignIn_Link, message: "null" })
     }
 });
@@ -244,7 +244,7 @@ app.use(function (req, res, next) {
 
 app.get('/ment/payment', requireAuth, (req, res) => {
     // ///////// Payment ///////////////
-    console.log("Else condition")
+    // console.log("Else condition")
 
     var instance = new Razorpay({ key_id: process.env.RAZORPAY_KEY_ID, key_secret: process.env.RAZORPAY_KEY_SECRET })
 
@@ -253,32 +253,53 @@ app.get('/ment/payment', requireAuth, (req, res) => {
         currency: "INR",
         receipt: "order_rcptid_11"
     };
+    var order_id;
     instance.orders.create(options, function (err, order) {
         console.log(order);
-        order_id = order.id;
+        // order_id = order.id;
+        res.render('ment', { title: "Ment", key: process.env.RAZORPAY_KEY_ID, orderID: order.id, payment_success: order_status, options: options });
     });
     // }
-    res.render('ment', { title: "Ment", key: process.env.RAZORPAY_KEY_ID, orderID: order_id, payment_success: order_status, options: options });
+    
 });
 
 app.post("/api/payment/verify", async (req, res) => {
 
     const { razorpayPaymentId, razorpayOrderId, razorpaySignature } = req.body;
     const body = `${razorpayOrderId}|${razorpayPaymentId}`;
+    // console.log('XYZ');
 
     const expectedSignature = crypto
         .createHmac("sha256", process.env.RAZORPAY_KEY_SECRET)
         .update(body.toString())
         .digest("hex");
 
+    console.log(expectedSignature);
     if (expectedSignature !== razorpaySignature)
         return res
             .status(400)
             .json({ success: false, data: { message: "Transaction invalid" } });
 
-    const userDoc = await User.findOne({ email: userDetails.email });
-    userDoc.hasPaid = true;
-    userDoc.save();
+    console.log('XYZ');
+    var user;
+    const token = req.cookies["session-token"];
+    if (token) {
+        jwt.verify(token, pem, { algorithms: ['RS256'] }, function (err, decodedToken) {
+            if (err) {
+                console.log(err.message);
+            } else {
+                console.log('abc');
+                user = decodedToken.email;
+            }
+        });
+    } else {
+        console.log('Error');
+    }
+    await userModel.findOneAndUpdate({email : user}, {hasPaid: true}, {
+        new: true
+    });
+    // const userDoc = await userModel.findOne({ email: user });
+
 
     res.json({
         success: true,
@@ -368,10 +389,10 @@ app.post('/submit-answers', function (req, res) {
             { filename: fileName, path: `./pdfs/${fileName}` }
         ]
     }, (err, info) => {
-        if(!err){
+        if (!err) {
             console.log(info.envelope);
             console.log(info.messageId);
-        }else{
+        } else {
             console.log('FAILED.....' + err);
         }
     });
