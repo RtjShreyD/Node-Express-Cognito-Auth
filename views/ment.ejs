@@ -96,9 +96,9 @@
                     "image": "http://mentconsult-tests.herokuapp.com/static/img/ment-logo.png",
                     "order_id": "<%= orderID %>", //This is a sample Order ID. Pass the `id` obtained in the response of Step 1
                     "handler": async function (response) {
-                        alert(response.razorpay_payment_id);
-                        alert(response.razorpay_order_id);
-                        alert(response.razorpay_signature)
+                        // alert(response.razorpay_payment_id);
+                        // alert(response.razorpay_order_id);
+                        // alert(response.razorpay_signature)
                         const data = {
                             orderCreationId: "<%= orderID %>",
                             razorpayPaymentId: response.razorpay_payment_id,

@@ -65,13 +65,17 @@ app.use(cookieParser())
 const connection_url = "mongodb+srv://admin:admin@cluster0.o2wbvrd.mongodb.net/?retryWrites=true&w=majority";
 
 // DB Config
-mongoose.connect(connection_url, {
-    useNewUrlParser: true, useUnifiedTopology: true
-}).then(() => {
-    console.log('connected to db')
-}).catch((error) => {
-    console.log(error)
-})
+const connectToMongo = async() => {
+    await mongoose.connect(connection_url, {
+        useNewUrlParser: true, useUnifiedTopology: true
+    })
+    // .then(() => {
+    //     console.log('connected to db')
+    // }).catch((error) => {
+    //     console.log(error)
+    // })
+    return mongoose;
+}
 
 // app.use(router);
 
@@ -91,7 +95,8 @@ app.post('/request', function (req, res) {
 
 
 // app.use(flash());
-app.get('/dashboard/', requireAuth, function (req, res, next) {
+app.get('/dashboard/', requireAuth, async function (req, res, next) {
+    await connectToMongo();
     var user;
     const token = req.cookies["session-token"];
     if (token) {
@@ -264,6 +269,7 @@ app.get('/ment/payment', requireAuth, (req, res) => {
 });
 
 app.post("/api/payment/verify", async (req, res) => {
+    await connectToMongo();
 
     const { razorpayPaymentId, razorpayOrderId, razorpaySignature } = req.body;
     const body = `${razorpayOrderId}|${razorpayPaymentId}`;
@@ -324,7 +330,8 @@ app.post('/logout', (req, res) => {
     // res.end();
     res.redirect('/');
 });
-app.post('/submit-answers', function (req, res) {
+app.post('/submit-answers', async function (req, res) {
+    await connectToMongo();
     const personalityType = getPersonalityType(req.body);
     const fileName = getFileName(personalityType);
 
@@ -366,6 +373,20 @@ app.post('/submit-answers', function (req, res) {
     //     console.log('Oops... ' + JSON.stringify(error));
     // });
     // res.end();
+    
+    var user;
+    const token = req.cookies["session-token"];
+    if (token) {
+        jwt.verify(token, pem, { algorithms: ['RS256'] }, function (err, decodedToken) {
+            if (err) {
+                console.log(err.message);
+            } else {
+                user = decodedToken.email;
+            }
+        });
+    } else {
+        console.log('Error');
+    }
 
 
     let nodemailer = require('nodemailer');
@@ -382,7 +403,7 @@ app.post('/submit-answers', function (req, res) {
     });
     transporter.sendMail({
         from: 'info.mentconsult@gmail.com',
-        to: userDetails.email,
+        to: user,
         subject: 'Personality test report | Ment Consulting',
         text: 'Your Test Report is ready please find the attachment below!',
         attachments: [
@@ -392,9 +413,18 @@ app.post('/submit-answers', function (req, res) {
         if (!err) {
             console.log(info.envelope);
             console.log(info.messageId);
+            res.render("thankyou", { title: 'Thank You', userEmail: user });
         } else {
             console.log('FAILED.....' + err);
+            res.render("500error", { title: '500 Error'});
         }
+    });
+    // if(!isPass){
+        
+    //     return;
+    // }
+    await userModel.findOneAndUpdate({email : user}, {hasPaid: false}, {
+        new: true
     });
 })
 
