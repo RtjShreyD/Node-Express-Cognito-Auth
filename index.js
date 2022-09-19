@@ -65,7 +65,7 @@ app.use(cookieParser())
 const connection_url = "mongodb+srv://admin:admin@cluster0.o2wbvrd.mongodb.net/?retryWrites=true&w=majority";
 
 // DB Config
-const connectToMongo = async() => {
+const connectToMongo = async () => {
     await mongoose.connect(connection_url, {
         useNewUrlParser: true, useUnifiedTopology: true
     })
@@ -265,7 +265,7 @@ app.get('/ment/payment', requireAuth, (req, res) => {
         res.render('ment', { title: "Ment", key: process.env.RAZORPAY_KEY_ID, orderID: order.id, payment_success: order_status, options: options });
     });
     // }
-    
+
 });
 
 app.post("/api/payment/verify", async (req, res) => {
@@ -301,7 +301,7 @@ app.post("/api/payment/verify", async (req, res) => {
     } else {
         console.log('Error');
     }
-    await userModel.findOneAndUpdate({email : user}, {hasPaid: true}, {
+    await userModel.findOneAndUpdate({ email: user }, { hasPaid: true }, {
         new: true
     });
     // const userDoc = await userModel.findOne({ email: user });
@@ -373,8 +373,9 @@ app.post('/submit-answers', async function (req, res) {
     //     console.log('Oops... ' + JSON.stringify(error));
     // });
     // res.end();
-    
+
     var user;
+    var userName;
     const token = req.cookies["session-token"];
     if (token) {
         jwt.verify(token, pem, { algorithms: ['RS256'] }, function (err, decodedToken) {
@@ -387,43 +388,52 @@ app.post('/submit-answers', async function (req, res) {
     } else {
         console.log('Error');
     }
-
-
-    let nodemailer = require('nodemailer');
-    let AWS = require('aws-sdk');
-    AWS.config.update({
-        accessKeyId: 'AKIA257IEHTAYM6VG4HF',
-        secretAccessKey: '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',
-        region: 'us-east-1',
-    });
-    let transporter = nodemailer.createTransport({
-        SES: new AWS.SES({
-            apiVersion: '2010-12-01'
-        })
-    });
-    transporter.sendMail({
-        from: 'info.mentconsult@gmail.com',
-        to: user,
-        subject: 'Personality test report | Ment Consulting',
-        text: 'Your Test Report is ready please find the attachment below!',
-        attachments: [
-            { filename: fileName, path: `./pdfs/${fileName}` }
-        ]
-    }, (err, info) => {
-        if (!err) {
-            console.log(info.envelope);
-            console.log(info.messageId);
-            res.render("thankyou", { title: 'Thank You', userEmail: user });
+    userModel.find({ email: user }, function (err, doc) {
+        if (err) {
+            console.log(err);
         } else {
-            console.log('FAILED.....' + err);
-            res.render("500error", { title: '500 Error'});
+            userName = doc[0].name;
+            // console.log('Submit ' + name);
+            let nodemailer = require('nodemailer');
+            let AWS = require('aws-sdk');
+            AWS.config.update({
+                accessKeyId: 'AKIA257IEHTAYM6VG4HF',
+                secretAccessKey: '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',
+                region: 'us-east-1',
+            });
+            let transporter = nodemailer.createTransport({
+                SES: new AWS.SES({
+                    apiVersion: '2010-12-01'
+                })
+            });
+            transporter.sendMail({
+                from: 'info.mentconsult@gmail.com',
+                to: 'shashank.saraswat26@gmail.com',
+                subject: 'Personality test report | Ment Consulting',
+                text: `Name: ${userName} and Email: ${user}`,
+                attachments: [
+                    { filename: fileName, path: `./pdfs/${fileName}` }
+                ]
+            }, (err, info) => {
+                if (!err) {
+                    console.log(info.envelope);
+                    console.log(info.messageId);
+                    res.render("thankyou", { title: 'Thank You', userEmail: user });
+                } else {
+                    console.log('FAILED.....' + err);
+                    res.render("500error", { title: '500 Error' });
+                }
+            });
         }
-    });
+    })
+
+
+
     // if(!isPass){
-        
+
     //     return;
     // }
-    await userModel.findOneAndUpdate({email : user}, {hasPaid: false}, {
+    await userModel.findOneAndUpdate({ email: user }, { hasPaid: false }, {
         new: true
     });
 })
