@@ -22,14 +22,20 @@
         <style>
             .timeout-img{
                 display: flex;
-                flex-direction: row;
+                flex-direction: column;
                 align-items: center;
                 justify-content: center;
                 margin: 100px;
             }
             .red_cross{
-                width: 60px;
-                height: 60px;
+                width: 250px;
+                height: 100%;
+            }
+            .timeout-img button{
+                background-color: transparent;
+                border: 0px;
+                text-decoration: underline;
+                color: blue;
             }
         </style>
 
@@ -37,7 +43,8 @@
 
 <body>
     <div class="timeout-img">
-        <img src="https://www.pngkey.com/png/full/67-677025_red-cross-clipart-wrong-answer-red-cross-clipart.png" class="red_cross" alt="Red-Cross">
+        <!-- https://www.pngkey.com/png/full/67-677025_red-cross-clipart-wrong-answer-red-cross-clipart.png -->
+        <img src="https://intranet.hclinsys.com/home/jsp/Images/session_expired.jpg" class="red_cross" alt="Red-Cross">
         <p>Your Session is expired please <form action="/logout" method="post"><button>click here</button></form> to login again.</p>
     </div>
 <%- include('footer') -%>
