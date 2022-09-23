@@ -1,11 +1,11 @@
 <%- include('header') -%>
 
 <div class="text-center center-div" id="login">
-    <div class="container w-25 border py-4 _rapper">
+    <div class="container border py-4 _rapper" id="_login_rapper">
         <div class="title pb-3"  >
             <img src="/assets/ment-logo.png" alt="Ment Logo">
-            <!-- <span>SignUp for User</span> -->
         </div>
+        <h5 >Signup for User</h5>
         <form action="/auth/signup" method="POST" class="pt-3">
                 <div class="form-group">
                     <input type="email" class="form-control" placeholder="email" name="email">
@@ -24,13 +24,6 @@
                         src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/53/Google_%22G%22_Logo.svg/512px-Google_%22G%22_Logo.svg.png" />
                     Login with Google
                 </a>
-                
-                <!-- <div class="g-signin2 col-md-12" data-onsuccess="onSignIn"></div>
-                https://rjt-test.auth.ap-south-1.amazoncognito.com/login?client_id=7slf75k4la79lfk2390vid1i3a&response_type=token&scope=email+openid+phone+profile&redirect_uri=http://localhost:3001/dashboard/
-
-                https://rjt-test.auth.ap-south-1.amazoncognito.com/oauth2/authorize?identity_provider=Google&redirect_uri=http://localhost:3001/dashboard/&response_type=CODE&client_id=**************&scope=email openid profile
-                https://localhost:3001/authorize?redirect_uri=http://localhost:3001/dashboard/&response_type=token&client_id=7slf75k4la79lfk2390vid1i3a&identity_provider=Google
-            -->
             </div>
             <p class="pt-4">Already a user? <a href="/">Login</a></p>
         </div>
