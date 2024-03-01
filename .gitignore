@@ -1,2 +1,3 @@
 .env
+jwks.json
 /node_modules

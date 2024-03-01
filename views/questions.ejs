@@ -77,39 +77,49 @@
 
 
     <div class="questions-container">
+        <!-- <div class="row">
+            <div class="col-4">
+                <img src="/assets/ment-logo.png" alt="MENT">
+            </div>
+            <div class="col-4">
+                
+            </div>
+            <div class="col-4">
+                <img src="/assets/ment-logo.png" alt="MENT">
+            </div>
+        </div> -->
         <form ref="form" method="POST" , action="/submit-answers">
             <!-- <input type="email" name="email" value="<%= userEmail %>" > -->
+            <div id="background">
+                    <p id="bg-text">
+                        <%= userEmail %>
+                    </p>
+                </div>
             <% for(var i=0; i < questions.length; i++) { %>
-                <div class="row">
-                    <div class="col s12 m6">
-                        <div class="card darken-1">
-                            <div class="card-content">
-                                <span class="card-title">
-                                    <%= questions[i][i+1] %>
-                                </span>
-                            </div>
-                            <p>
-                                <label>
-                                    <input name="<%= i+1 %>" type="radio" value="1" required checked/>
-                                    <span>
-                                        <%= questions[i].option1 %>
-                                    </span>
+                <div class="quiz-container" id="quiz">
+                    <div class="quiz-header">
+                        <h2 id="question">
+                            <%= questions[i][i+1] %>
+                        </h2>
+                        <ul>
+                            <li>
+                                <input type="radio" name="<%= i+1 %>" id="a" value="1" class="answer" required checked>
+                                <label for="a" id="a_text">
+                                    <%= questions[i].option1 %>
                                 </label>
-                            </p>
-                            <p>
-                                <label>
-                                    <input name="<%= i+1 %>" type="radio" value="2" required />
-                                    <span>
-                                        <%= questions[i].option2 %>
-                                    </span>
+                            </li>
+                            <li>
+                                <input type="radio" name="<%= i+1 %>" id="b" value="2" class="answer" required>
+                                <label for="b" id="b_text">
+                                    <%= questions[i].option2 %>
                                 </label>
-                            </p>
-                        </div>
+                            </li>
+                        </ul>
                     </div>
+
                 </div>
                 <% } %>
-
-                    <button class="btn right" id="submit-answer">Submit</button>
+                    <button id="submit" style="margin-top: 5%; margin-bottom: 10%;">Submit</button>
         </form>
     </div>
 

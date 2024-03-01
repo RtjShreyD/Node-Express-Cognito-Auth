@@ -3,20 +3,15 @@ global.fetch = require('node-fetch');
 
 require('dotenv').config();
 const Cognito = require('./cognito/index');
-// const { verify } = require('./cognito/index');
 const express = require('express');
-// const req = require('express/lib/request');
 const path = require("path");
 const bodyParser = require('body-parser');
 const session = require('express-session')
-// const { response } = require('express');
 const userModel = require('./database');
 const mongoose = require('mongoose');
-// const url = require('url')
 const Razorpay = require('razorpay')
 const questions = require("../node-cognito-test/questions.json");
 var order_id, order_status = null;
-// const router = require("./routes");
 const crypto = require("crypto");
 const cookieParser = require('cookie-parser')
 const { requireAuth } = require('./middleware/verifytoken');
@@ -27,7 +22,6 @@ const { url } = require('inspector');
 const { JSDOM } = require("jsdom");
 const { window } = new JSDOM("");
 const $ = require("jquery")(window);
-// const userAuth = require('./config/config');
 const jwt = require('jsonwebtoken');
 const jwkToPem = require('jwk-to-pem');
 const jwk = require('./jwks.json');
@@ -53,16 +47,8 @@ const userDetails = {
 
 app.use(cookieParser())
 
-// app.get('/', function (req, res) {
-//   // Cookies that have not been signed
-//   console.log('Cookies: ', req.cookies)
-
-//   // Cookies that have been signed
-//   console.log('Signed Cookies: ', req.cookies["session-token"])
-// })
-
 // App Config
-const connection_url = "mongodb+srv://admin:admin@cluster0.o2wbvrd.mongodb.net/?retryWrites=true&w=majority";
+const connection_url = process.env.MONGODB_URL;
 
 // DB Config
 const connectToMongo = async () => {
@@ -85,8 +71,7 @@ const connectToMongo = async () => {
 
 app.post('/request', function (req, res) {
 
-    userDetails.idToken = req.body.token;
-    // console.log(userDetails.idToken);
+    userDetails.idToken = req.body.token
     res.cookie("session-token", userDetails.idToken);
     userDetails.email = req.body.email;
     console.log(userDetails.email);
@@ -94,7 +79,6 @@ app.post('/request', function (req, res) {
 });
 
 
-// app.use(flash());
 app.get('/dashboard/', requireAuth, async function (req, res, next) {
     await connectToMongo();
     var user;
@@ -110,20 +94,16 @@ app.get('/dashboard/', requireAuth, async function (req, res, next) {
     } else {
         console.log('Error');
     }
-    // const userEmail = userAuth.userAuth;
     console.log('message ' + user);
     userModel.find({ email: user }, function (err, doc) {
         if (err) {
             console.log(err);
         } else {
-            console.log('show' + doc);
             res.render("dashboard", {
                 data: doc, title: "Dashboard"
             });
         }
     })
-    // console.log(user);
-    // res.render("dashboard", { user, title: "Dashboard"});
 });
 
 app.get('/list', function (req, res, next) {
@@ -144,11 +124,6 @@ app.get('/test', requireAuth, (req, res) => {
 });
 
 app.post('/dashboard', (req, res) => {
-    // Name = req.body.name,
-    // email = req.body.email,
-    // phoneNumber = req.body.phoneNumber,
-    // age = req.body.age,
-    // gender = req.body.gender
     let newAddress = new userModel({
         name: req.body.name,
         email: req.body.email,
@@ -194,18 +169,15 @@ app.post('/auth/signin', async function (req, res) {
 
     if (response.statusCode === 200) {
         console.log(response);
-        // userDetails.name = response.response.name;
         userDetails.email = response.response.email;
         userDetails.accessToken = response.response.token.accessToken;
         userDetails.idToken = response.response.token.idToken;
         res.cookie("session-token", userDetails.idToken);
-        // res.status(200).end();
         res.redirect(`/dashboard/#access_token=${response.response.token.accessToken}`);
     } else if (response.statusCode === 400 && response.response === 'User is not confirmed.') {
         res.redirect(`/auth/verify/user_id=${useremail}`);
     } else if (response.statusCode === 400 && response.response === 'Incorrect username or password.') {
         res.render('base', { title: "Login System", googlelink: process.env.Google_SignIn_Link, message: 'Incorrect username or password.' });
-        // res.end("Invalid user and password");
     } else if (response.statusCode === 400 && response.response === 'Password attempts exceeded') {
         res.render('base', { title: "Login System", googlelink: process.env.Google_SignIn_Link, message: 'Password attempts exceeded' });
     }
@@ -223,16 +195,14 @@ app.get('/signup', (req, res) => {
 app.set('view engine', 'ejs');
 
 app.use('/static', express.static(path.join(__dirname, 'public')));
-app.use('assets', express.static(path.join(__dirname, 'public/assets')))
+app.use('/assets', express.static(path.join(__dirname, 'public/assets')));
 
 app.get('/session-expire', (req, res) => {
     res.render('timeout', { title: "Session Expire" })
 })
 app.get('/', (req, res) => {
     if (req.cookies["session-token"]) {
-        // console.log(requireAuth);
         res.redirect('/dashboard/');
-        // res.render('timeout', { title: "Session Expire"})
     } else {
         res.render('base', { title: "Login System", googlelink: process.env.Google_SignIn_Link, message: "null" })
     }
@@ -249,7 +219,6 @@ app.use(function (req, res, next) {
 
 app.get('/ment/payment', requireAuth, (req, res) => {
     // ///////// Payment ///////////////
-    // console.log("Else condition")
 
     var instance = new Razorpay({ key_id: process.env.RAZORPAY_KEY_ID, key_secret: process.env.RAZORPAY_KEY_SECRET })
 
@@ -261,7 +230,6 @@ app.get('/ment/payment', requireAuth, (req, res) => {
     var order_id;
     instance.orders.create(options, function (err, order) {
         console.log(order);
-        // order_id = order.id;
         res.render('ment', { title: "Ment", key: process.env.RAZORPAY_KEY_ID, orderID: order.id, payment_success: order_status, options: options });
     });
     // }
@@ -273,7 +241,6 @@ app.post("/api/payment/verify", async (req, res) => {
 
     const { razorpayPaymentId, razorpayOrderId, razorpaySignature } = req.body;
     const body = `${razorpayOrderId}|${razorpayPaymentId}`;
-    // console.log('XYZ');
 
     const expectedSignature = crypto
         .createHmac("sha256", process.env.RAZORPAY_KEY_SECRET)
@@ -304,7 +271,6 @@ app.post("/api/payment/verify", async (req, res) => {
     await userModel.findOneAndUpdate({ email: user }, { hasPaid: true }, {
         new: true
     });
-    // const userDoc = await userModel.findOne({ email: user });
 
 
     res.json({
@@ -327,7 +293,6 @@ app.post('/logout', (req, res) => {
     userDetails.email = 'null';
     userDetails.accessToken = "null";
     userDetails.idToken = "null";
-    // res.end();
     res.redirect('/');
 });
 app.post('/submit-answers', async function (req, res) {
@@ -393,13 +358,12 @@ app.post('/submit-answers', async function (req, res) {
             console.log(err);
         } else {
             userName = doc[0].name;
-            // console.log('Submit ' + name);
             let nodemailer = require('nodemailer');
             let AWS = require('aws-sdk');
             AWS.config.update({
-                accessKeyId: 'AKIA257IEHTAYM6VG4HF',
-                secretAccessKey: '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',
-                region: 'us-east-1',
+                accessKeyId: process.env.AWS_SES_ACCESS_KEY,
+                secretAccessKey: process.env.AWS_SES_SECRET_KEY,
+                region: process.env.AWS_REGION,
             });
             let transporter = nodemailer.createTransport({
                 SES: new AWS.SES({
@@ -407,8 +371,8 @@ app.post('/submit-answers', async function (req, res) {
                 })
             });
             transporter.sendMail({
-                from: 'info.mentconsult@gmail.com',
-                to: 'shashank.saraswat26@gmail.com',
+                from: process.env.FROM_MAIL_ID,
+                to: process.env.TO_MAIL_ID,
                 subject: 'Personality test report | Ment Consulting',
                 text: `Name: ${userName} and Email: ${user}`,
                 attachments: [
@@ -426,13 +390,6 @@ app.post('/submit-answers', async function (req, res) {
             });
         }
     })
-
-
-
-    // if(!isPass){
-
-    //     return;
-    // }
     await userModel.findOneAndUpdate({ email: user }, { hasPaid: false }, {
         new: true
     });
